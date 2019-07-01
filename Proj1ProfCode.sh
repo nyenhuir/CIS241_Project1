@@ -16,28 +16,30 @@ list_maker(){
 }
 
 user_menu(){
-	while true;do
-		group_nums=$(id | grep -Eo "groups=.*" | sed -E 's/groups=//' | sed -E 's/,/ /g')
-		current_users=$(who | grep -Eo "^[[:alnum:]]*" | sort | uniq)
-
-		choice=$(dialog \
+	while true; do
+		user_choice=$(dialog \
 			--backtitle "User Information" \
 			--clear \
-			--menu "You are logged in as ${USER} with id=$(id -u)." 0 0 3 \
+			--menu "You are logged in as ${USER} with id=$(id -u)." 0 0 4 \
 			"1" "Primary group" \
 			"2" "List groups numerically" \
-			"3" "List group names" \ 
+			"3" "List group names" \
+			"4" "List users" \
 			2>&1 1>&3)
 		return_value=$?
 		case $return_value in
 			$DIALOG_OK)
-				case $choice in
+				case $user_choice in
 					1)
-						dialog_box "Your primary group is: $(id -g)";;
+						dialog_box "Your primary group is $(id -g)";;
 					2)
+						group_nums=$(id | grep -Eo "groups=.*" | sed -E 's/groups=//' | sed -E 's/,/ /g')
 						dialog_box "Your groups are: $group_nums";;
 					3)
-						dialog_box "Yourr groups are: $(groups)";;
+						dialog_box "Your groups are: $(groups)";;
+					4)
+						current_users=$(who | grep -Eo "^[[:alnum:]]*" | sort | uniq)
+						dialog_box "Current users logged in: $current_users";;
 				esac;;
 			$DIALOG_CANCEL)
 				return;;
