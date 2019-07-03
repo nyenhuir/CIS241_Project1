@@ -107,11 +107,11 @@ weather_menu(){
 			firstdetailedForecast=$(echo $forecast | jq '.properties.periods[0].detailedForecast' | tr -d '"')
 			secondperiod=$(echo $forecast | jq '.properties.periods[1].name' | tr -d '"')
 			seconddetailedForecast=$(echo $forecast | jq '.properties.periods[1].detailedForecast' | tr -d '"')
-			thirdperiod=$(echo $forecast | jq '.properties.periods[3].name' | tr -d '"')
+			thirdperiod=$(echo $forecast | jq '.properties.periods[2].name' | tr -d '"')
 			thirddetailedForecast=$(echo $forecast | jq '.properties.periods[3].detailedForecast' | tr -d '"')
-			fourthperiod=$(echo $forecast | jq '.properties.periods[5].name' | tr -d '"')
+			fourthperiod=$(echo $forecast | jq '.properties.periods[3].name' | tr -d '"')
 			fourthdetailedForecast=$(echo $forecast | jq '.properties.periods[5].detailedForecast' | tr -d '"')
-			fifthperiod=$(echo $forecast | jq '.properties.periods[6].name' | tr -d '"')
+			fifthperiod=$(echo $forecast | jq '.properties.periods[4].name' | tr -d '"')
 			fifthdetailedForecast=$(echo $forecast | jq '.properties.periods[6].detailedForecast' | tr -d '"')
 			weathercount=2;
 		fi
@@ -123,6 +123,7 @@ weather_menu(){
 			"1" "$firstperiod's weather" \
 			"2" "$secondperiod's weather" \
 			"3" "$thirdperiod's weather" \
+			"4" "$fourthperiod's weather" \
 			2>&1 1>&3)
 		return_value=$?
 		case $return_value in
@@ -134,6 +135,8 @@ weather_menu(){
 						dialog_box "$secondperiod's forecast: $seconddetailedForecast";;
 					3)
 						dialog_box "$thirdperiod's forecast: $thirddetailedForecast";;
+					4)
+						dialog_box "$fourthperiod's forecast: $fourthdetailedForecast";;
 
 
 				esac;;
